@@ -3,6 +3,7 @@ package com.example.savingtest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private Button sharedPreferenceSave;
     private Button sharedPreferenceGet;
+    private Button enterDatabaseActivity;
+    private Button enterLitePalActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.save);
         sharedPreferenceSave = findViewById(R.id.SharedPreferenceSave);
         sharedPreferenceGet = findViewById(R.id.SharedPreferenceGet);
+        enterDatabaseActivity = findViewById(R.id.enterDatabaseActivity);
         sharedPreferenceSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +59,22 @@ public class MainActivity extends AppCompatActivity {
                 sharedPreferenceGet();
             }
         });
+        enterDatabaseActivity.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DataBaseActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        enterLitePalActivity = findViewById(R.id.enterLItePalActivity);
+        enterLitePalActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LitePalTest.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
