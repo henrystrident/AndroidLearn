@@ -10,7 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LitePalTest"></activity>
+        <provider
+            android:name=".DatabaseProvider"
+            android:authorities="com.example.savingtest.provider"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".LitePalTest" />
         <activity android:name=".DataBaseActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

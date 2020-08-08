@@ -48,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button enterContentResolverActivity = findViewById(R.id.enterContentResolverActivity);
+        enterContentResolverActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ContentResolverTest.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

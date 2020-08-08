@@ -22,7 +22,7 @@ public class DataBaseActivity extends AppCompatActivity{
         setContentView(R.layout.activity_data_base);
         final MyDatabaseHelper databaseHelper = new MyDatabaseHelper(DataBaseActivity.this, "BookStore.db",null,2);
 
-        createTable = findViewById(R.id.createLitePalTable);
+        createTable = findViewById(R.id.createSQLiteTable);
         createTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +68,7 @@ public class DataBaseActivity extends AppCompatActivity{
                         double price = cursor.getDouble(cursor.getColumnIndex("price"));
                         Log.d("查询数据", name+" "+author+" "+price+" "+pages);
                     }while (cursor.moveToNext());
+                    cursor.close();
                 }
             }
         });
