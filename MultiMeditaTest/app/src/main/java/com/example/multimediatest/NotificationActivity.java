@@ -1,4 +1,4 @@
-package com.example.multimeditatest;
+package com.example.multimediatest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -52,6 +52,15 @@ public class NotificationActivity extends AppCompatActivity {
                         .build();
                 notificationManager.notify(1, notification);
 
+            }
+        });
+
+        Button enterCameraActivity = findViewById(R.id.enterCameraActivity);
+        enterCameraActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NotificationActivity.this, CameraActivity.class);
+                startActivity(intent);
             }
         });
 

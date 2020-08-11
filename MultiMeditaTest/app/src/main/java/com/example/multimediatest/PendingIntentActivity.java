@@ -1,4 +1,4 @@
-package com.example.multimeditatest;
+package com.example.multimediatest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
