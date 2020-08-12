@@ -43,3 +43,55 @@ new Thread(myThread).start();
 	Looper是每个线程中管理 `MessageQueue` 的对象，如果MessageQueue中有Message，Looper就会将消息取出，发送给 `handlerMessage()` 进行处理。
 
 - 接下来，我们通过一个实例来实现子线程更新UI，总体思路是通过按钮点击事件，让子线程给主线程发送消息，主线程接到消息后，就对UI进行更新。
+
+```java
+private Button changeText;
+private TextView textView;
+
+private static final int CHANGE_TEXT = 1;
+
+private Handler handler = new Handler()
+{
+    @Override
+    public void handleMessage(@NonNull Message msg) {
+        super.handleMessage(msg);
+        switch (msg.what)
+        {
+            case CHANGE_TEXT:
+                textView.setText("have been changed");
+                break;
+            default:
+                break;
+        }
+    }
+};
+```
+
+```java
+protected void onCreate(Bundle savedInstanceState) 
+{
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    changeText = findViewById(R.id.changeText);
+    textView = findViewById(R.id.textView);
+
+    changeText.setOnClickListener(this);
+}
+
+@Override
+public void onClick(View v) {
+    switch (v.getId())
+    {
+        case R.id.changeText:
+            Message message = new Message();
+            message.what = CHANGE_TEXT;
+            handler.sendMessage(message);
+            break;
+        default:
+            break;
+    }
+}
+```
+
+<img src="\img\1.png" style="zoom: 50%;" />    <img src="\img\2.png" style="zoom:50%;"/>
+
