@@ -3,6 +3,7 @@ package com.example.androidservicetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +15,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button changeText;
+    private Button changeText, enterServiceActivity;
     private TextView textView;
 
     private static final int CHANGE_TEXT = 1;
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         changeText = findViewById(R.id.changeText);
         textView = findViewById(R.id.textView);
+        enterServiceActivity = findViewById(R.id.enterServiceActivity);
 
+        enterServiceActivity.setOnClickListener(this);
         changeText.setOnClickListener(this);
     }
 
@@ -54,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 message.what = CHANGE_TEXT;
                 handler.sendMessage(message);
                 break;
+            case R.id.enterServiceActivity:
+                Intent intent = new Intent(MainActivity.this, ServiceTest.class);
+                startActivity(intent);
             default:
                 break;
         }

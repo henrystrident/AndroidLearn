@@ -3,6 +3,7 @@
 - [线程](#线程)
 	- [线程的基本使用](#线程的基本使用)
 	- [子线程更新UI](#子线程更新UI)
+- [服务的基本用法](#服务的基本用法)
 
 
 # [服务是什么](#目录)
@@ -93,5 +94,114 @@ public void onClick(View v) {
 }
 ```
 
-<img src="\img\1.png" style="zoom: 50%;" />    <img src="\img\2.png" style="zoom:50%;"/>
+<img src="./img/1.png" style="zoom:67%;" /><img src="./img/2.png" style="zoom:67%;" />
 
+
+
+# [服务的基本用法](#目录)
+
+## 定义和启动服务
+
+- 接下来我们看一下服务的基本用法，首先我们需要定义一个自己的服务，叫做 `MyService`。服务属于Android的四大组件，都要在 `AndroidManifest.xml` 中进行注册，由于我们用AndroidStudio进行声明的，所以已经注册完成了。
+- 新建服务后我们需要重写三个较为常见的方法，`onCreate()`，`onStartCommand()`，`onDestroy()`。分别代表服务创建，启动和销毁时应当做的操作，这里我们可以在日志中打印这些过程。
+
+```java
+@Override
+public void onCreate() {
+    super.onCreate();
+    Log.d("MyService","创建");
+}
+
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+    Log.d("MyService", "开启");
+    return super.onStartCommand(intent, flags, startId);
+}
+
+@Override
+public void onDestroy() {
+    Log.d("MyService","销毁");
+    super.onDestroy();
+}
+```
+
+- 接着，我们通过按钮点击事件来看看服务的整个过程，由于服务是依赖于Activity存在的，所以启动和关闭服务都需要通过Intent来完成，但是与启动一个Activity不同，服务的开启和关闭是通过 `startService()` 和 `stopService()` 来完成的。
+
+```java
+public void onClick(View v) {
+    switch (v.getId())
+    {
+        case R.id.startService:
+            Intent startIntent = new Intent(ServiceTest.this, MyService.class);
+            startService(startIntent);
+            break;
+        case R.id.stopService:
+            Intent stopIntent = new Intent(ServiceTest.this, MyService.class);
+            stopService(stopIntent);
+            break;
+        default:
+            break;
+    }
+}
+```
+
+<img src="./img/3.png"  />
+
+## 活动和服务进行通信
+- 虽然刚刚我们启动了一个服务，但是一旦服务启动了，就和我们的Activity没什么关系了，相当于Activity只是允许服务进行启动，现在我们想让活动和服务关系更加紧密，能通过活动对服务进行一些控制，那么现在我们需要借助 `MyService` 中的 `onBind()` 绑定方法了。首先我们要在 `Myservice` 中定义一个自己的Binder类，并在其中定义一些功能，比如 `startDownload()` 和 `getProgress()`。
+
+```java
+private DownloadBinder mBinder;
+    
+class DownloadBinder extends Binder
+{
+    public void startDownload()
+    {
+        Log.d("MyService", "开始下载");
+    }
+
+    public void getProgress()
+    {
+        Log.d("MyService", "下载进度:50%");
+    }
+}
+
+...
+
+@Override
+public IBinder onBind(Intent intent) {
+    return mBinder;
+}
+```
+
+- 接着，我们需要在活动中去调用这些方法。首先我们要将活动与服务绑定，实现这个功能我们需要一个 `ServiceConnection` 对象，并且在初始化这个对象时我们就可以指出一旦活动与服务绑定，就执行下载和读取进度操作。
+
+```java
+private MyService.DownloadBinder downloadBinder;
+private ServiceConnection connection = new ServiceConnection() {
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        downloadBinder = (MyService.DownloadBinder) service;
+        downloadBinder.startDownload();
+        downloadBinder.getProgress();
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+
+    }
+};
+```
+
+- 最后我们通过点击事件完成活动与事件的绑定与解除，这就要用到 `bindService()` 和 `unbindService()` 方法了。前者传入三个参数intent，connection和一个标志位，后者只需要传入一个connection即可。
+
+```java
+case R.id.bindService:
+	Intent bindService = new Intent(ServiceTest.this, MyService.class);
+	bindService(bindService, connection, BIND_AUTO_CREATE);
+	break;
+case R.id.unbindService:
+	unbindService(connection);
+```
+
+![](./img/4.png)
