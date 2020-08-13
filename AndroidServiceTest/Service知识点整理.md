@@ -4,10 +4,15 @@
 	- [线程的基本使用](#线程的基本使用)
 	- [子线程更新UI](#子线程更新UI)
 - [服务的基本用法](#服务的基本用法)
+	- [定义和启动服务](#定义和启动服务)
+	- [活动和服务进行通信](#活动和服务进行通信)
+- [服务的生命周期](#服务的生命周期)
+- [使用前台服务](#使用前台服务)
+- [使用IntentService](#使用IntentService)
 
 
 # [服务是什么](#目录)
-- 服务是实现程序在后台运行的解决方案，如果有需要长期执行并且不需要和用户进行交互的任务，那么服务是其最好的实现方法。但是，服务并不是独立的进程，它还是依赖于应用程序的进程，并且服务自己不会开启线程，所有代码都是默认运行在主线程中的，所以我们需要在服务内部创建子线程，并执行具体任务。所以我们记下来先学习一下线程的知识。
+- 服务是实现程序在后台运行的解决方案，如果有需要长期执行并且不需要和用户进行交互的任务，那么服务是其最好的实现方法。但是，服务并不是独立的进程，它还是依赖于应用程序的进程，并且服务自己不会开启线程，所有代码都是==默认运行在主线程中的==，所以我们需要在服务内部创建子线程，并执行具体任务。所以我们记下来先学习一下线程的知识。
 
 
 
@@ -205,3 +210,84 @@ case R.id.unbindService:
 ```
 
 ![](./img/4.png)
+
+
+
+# [服务的生命周期](#目录)
+- 我们在前面用到的 `onCreate()`，`onStartCommand()`，`onBind()`，`onDestory()` 都是服务的生命周期中可能回调的方法。一旦项目在任何位置调用了 `startService()` 方法，那么服务就相应的启动起来，并回调 `onStartCommand` 方法。如果这个活动还没有创建过，那么会首先调用 `onCreate()` 方法创建服务。服务启动之后会保持运行状态，直到 `stopService()` 方法或 `stopSelf()` 方法被调用（这个方法还没见过）。
+
+- 当我们用 `bindService()` 方法绑定服务时，服务中的 `onBind()` 方法就被调用，如果这个服务没有被创建，则会首先调用 `onCreate()` 方法，并且 `onStartCommand` 方法不会被调用。 只要连接没有断开，服务就会一直保持运行的状态。
+
+- 当我们 `bindService()` 又 `unbindService()` 时，会调用 `onDestroy()` 方法销毁服务，但如果我们既 `startService()` 又 `bindService()` 后，必须既 `stopService()` 又 `unbindService()` 才能调用 `onDestroy()` 方法销毁服务。因为Android的机制就是一个服务如果想要被销毁，就必须既解绑，又不被启动。
+
+
+
+# [使用前台服务](#目录)
+- 服务几乎都是在后台运行的，系统优先级比较低，当内存不够的时候就会回收掉正在后台运行的服务。如果我们希望服务一直运行，则可以考虑前台服务，它会在通知栏显示一个正在运行的图标，这与通知非常相似，下拉状态栏就可以看到更详细的信息。想实现前台服务，我们只需要在 `onCreate()` 方法中定义一个通知对象，并用 `startForegroud()` 方法让它在前台运行即可。
+
+```java
+Intent intent = new Intent(this, MainActivity.class);
+PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, 		intent, 0); //其实这句不知道有什么作用，因为加不加点击之后效果都是一样的。
+NotificationCompat.Builder builder;
+NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+{
+    NotificationChannel notificationChannel = new NotificationChannel("前台服务",getString(R.string.app_name), NotificationManager.IMPORTANCE_LOW);
+    manager.createNotificationChannel(notificationChannel);
+    builder = new NotificationCompat.Builder(getApplicationContext(), "前台服务");
+}
+
+else
+{
+    builder = new NotificationCompat.Builder(getApplicationContext());
+}
+
+builder.setContentTitle("this is Title")
+    .setContentText("this is Content")
+    .setWhen(System.currentTimeMillis())
+    .setContentIntent(pendingIntent);
+
+Notification notification = builder.build();
+startForeground(1, notification);
+```
+
+<img src="./img/5.jpg" style="zoom:25%;" />
+
+
+
+# [使用IntentService](#目录)
+- 服务默认是运行在主线程中的，如果执行的是一些非常耗时的操作，那么就很容易出现ANR（Application Not Responding）。我们应该在服务的每一个操作中开启一个子线程，处理这些耗时的逻辑，比如我们可以在 `onStartCommand()` 方法中开启一个线程，并在其完成任务使用 `stopself()` 方法将其关闭，但是如果忘记开启线程或忘了关闭的话就会有问题。所以Android提供了一个` IntentService` 类来帮助我们完成服务中开启线程。我们需要构造一个继承这个类的自己的 `MyIntentService`。
+- 在这个类中有三个方法需要我们注意，第一个是无参的构造函数，在调用父类的构造函数时，我们需要传入一个字符串作为名字，可以随便取，但是一般取自己的类的名字。第二个方法是 `onHandlerIntent(Intent intent)`，所有在线程中做的操作都放在这个函数中。第三个方法是 `onDestroy()`，表示所有工作完成后服务自动销毁。最后， `IntentService` 也是一种服务，所以我们要在 `AndroidManifest.xml` 中注册它
+
+```xml
+<service android:name=".MyIntentService"/>
+```
+
+```java
+public class MyIntentService extends IntentService {
+    public MyIntentService() {
+        super("test IntentService");
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        Log.d("MyIntentService","当前线程"+Thread.currentThread().getId());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("MyIntentService","销毁");
+    }
+}
+```
+
+```java
+case R.id.startIntentService:
+    Log.d("主线程","id是"+Thread.currentThread().getId());
+    Intent intent = new Intent(ServiceTest.this, MyIntentService.class);
+    startService(intent);
+```
+
+![](./img/6.png)
+

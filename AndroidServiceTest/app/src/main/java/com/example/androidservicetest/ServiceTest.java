@@ -7,12 +7,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class ServiceTest extends AppCompatActivity implements View.OnClickListener{
 
-    private Button startService, stopService, bindService, unbindService;
+    private Button startService, stopService, bindService, unbindService, startIntentService;
 
     private MyService.DownloadBinder downloadBinder;
     private ServiceConnection connection = new ServiceConnection() {
@@ -25,7 +26,6 @@ public class ServiceTest extends AppCompatActivity implements View.OnClickListen
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
         }
     };
 
@@ -38,11 +38,13 @@ public class ServiceTest extends AppCompatActivity implements View.OnClickListen
         stopService = findViewById(R.id.stopService);
         bindService = findViewById(R.id.bindService);
         unbindService = findViewById(R.id.unbindService);
+        startIntentService = findViewById(R.id.startIntentService);
 
         startService.setOnClickListener(this);
         stopService.setOnClickListener(this);
         bindService.setOnClickListener(this);
         unbindService.setOnClickListener(this);
+        startIntentService.setOnClickListener(this);
 
     }
 
@@ -65,6 +67,10 @@ public class ServiceTest extends AppCompatActivity implements View.OnClickListen
             case R.id.unbindService:
                 unbindService(connection);
                 break;
+            case R.id.startIntentService:
+                Log.d("主线程","id是"+Thread.currentThread().getId());
+                Intent intent = new Intent(ServiceTest.this, MyIntentService.class);
+                startService(intent);
             default:
                 break;
         }
