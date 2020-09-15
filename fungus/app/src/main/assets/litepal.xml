@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="Mushroom"></dbname>
+    <version value="2"></version>
+
+    <list>
+        <mapping class="com.bjfu.fungus.Data.InformationBasic"></mapping>
+        <mapping class="com.bjfu.fungus.Data.InformationCap"/>
+        <mapping class="com.bjfu.fungus.Data.InformationContext"/>
+        <mapping class="com.bjfu.fungus.Data.InformationLamella"/>
+        <mapping class="com.bjfu.fungus.Data.InformationRest"/>
+        <mapping class="com.bjfu.fungus.Data.InformationStipe"/>
+        <mapping class="com.bjfu.fungus.Data.InformationTube"/>
+
+
+    </list>
+</litepal>

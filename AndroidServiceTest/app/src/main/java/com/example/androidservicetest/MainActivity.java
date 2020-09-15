@@ -3,6 +3,7 @@ package com.example.androidservicetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final int CHANGE_TEXT = 1;
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler()
     {
         @Override

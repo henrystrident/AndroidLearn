@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#a0000000">
+
+<LinearLayout
+    android:layout_alignParentBottom="true"
+    android:id="@+id/linearLayout_selector"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#EDEDED">
+
+    <TextView
+        android:id="@+id/ensure"
+        android:text="确定"
+        android:layout_marginRight="10dp"
+        android:textColor="#1C86EE"
+        android:layout_gravity="right|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:onClick="Ensure"/>
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#999"/>
+
+
+    <ListView
+        android:id="@+id/listView_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="190dp"
+        android:divider="@null" />
+
+
+</LinearLayout>
+
+</RelativeLayout>

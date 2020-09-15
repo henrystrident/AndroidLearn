@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bjfu.fungus">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:name="org.litepal.LitePalApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/fungus"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Help.HelpRecord"></activity>
+        <activity android:name=".Help.HelpCollect" />
+        <activity android:name=".Help.HelpUser" />
+        <activity android:name=".User.Help" />
+        <activity android:name=".Record.DownloadCondition" />
+        <activity android:name=".Record.RecordPhotoCategory" />
+        <activity android:name=".Record.SpecificRecord" />
+        <activity android:name=".Record.TypeCondition" />
+        <activity android:name=".Record.UpdateInformationTube" />
+        <activity android:name=".Record.UpdateInformationStipe" />
+        <activity android:name=".Record.UpdateInformationRest" />
+        <activity android:name=".Record.UpdateInformationLamella" />
+        <activity android:name=".Record.UpdateInformationContext" />
+        <activity android:name=".Record.UpdateInformationCap" />
+        <activity android:name=".Record.UpdateDetails" />
+        <activity android:name=".Record.UpdateInformationBasic" />
+        <activity android:name=".Collect.CollectInformationTube" />
+        <activity android:name=".Collect.CollectInformationStipe" />
+        <activity android:name=".Collect.CollectInformationRest" />
+        <activity android:name=".Collect.CollectInformationLamella" />
+        <activity android:name=".Collect.CollectInformationContext" />
+        <activity android:name=".Collect.CollectInformationCap" />
+        <activity android:name=".Collect.CollectDetails" />
+        <activity android:name=".Collect.ChoosePhotoCategory" />
+        <activity android:name=".Collect.CollectInformationBasic" />
+        <activity android:name=".User.AboutUs" />
+        <activity android:name=".User.Setting" />
+        <activity android:name=".User.Register" />
+        <activity android:name=".User.RetrievePassword" />
+        <activity android:name=".User.Login" />
+        <activity android:name=".enter.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="o4FauTSGp3iLMhaZm8vMKq4QnEO8jVEz" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.bjfu.fungus.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>
