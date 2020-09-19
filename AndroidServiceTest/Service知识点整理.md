@@ -12,7 +12,7 @@
 
 
 # [服务是什么](#目录)
-- 服务是实现程序在后台运行的解决方案，如果有需要长期执行并且不需要和用户进行交互的任务，那么服务是其最好的实现方法。但是，服务并不是独立的进程，它还是依赖于应用程序的进程，并且服务自己不会开启线程，所有代码都是==默认运行在主线程中的==，所以我们需要在服务内部创建子线程，并执行具体任务。所以我们记下来先学习一下线程的知识。
+- 服务是实现程序在后台运行的解决方案，如果有需要长期执行并且不需要和用户进行交互的任务，那么服务是其最好的实现方法。但是，服务并不是独立的进程，它还是依赖于应用程序的进程，并且服务自己不会开启线程，所有代码都是**默认运行在主线程中的**，所以我们需要在服务内部创建子线程，并执行具体任务。所以我们记下来先学习一下线程的知识。
 
 
 
@@ -89,7 +89,8 @@ public void onClick(View v) {
     switch (v.getId())
     {
         case R.id.changeText:
-            Message message = new Message();
+//            Message message = new Message();
+            Message message = Message.obtain();
             message.what = CHANGE_TEXT;
             handler.sendMessage(message);
             break;
@@ -107,7 +108,14 @@ public void onClick(View v) {
 
 ## 定义和启动服务
 
-- 接下来我们看一下服务的基本用法，首先我们需要定义一个自己的服务，叫做 `MyService`。服务属于Android的四大组件，都要在 `AndroidManifest.xml` 中进行注册，由于我们用AndroidStudio进行声明的，所以已经注册完成了。
+- 接下来我们看一下服务的基本用法，首先我们需要定义一个自己的服务，叫做 `MyService`。服务属于Android的四大组件，都要在 `AndroidManifest.xml` 中进行注册，由于我们用AndroidStudio进行声明的，所以已经注册完成了。service除了名字外，还有两个属性需要声明：`exported` 和  `enabled`。前者代表其他应用是否可以访问这个服务，后者代表是否启用这个服务。
+```xml
+<service
+	android:name=".MyService"
+  android:enabled="true"
+  android:exported="true" />
+```
+
 - 新建服务后我们需要重写三个较为常见的方法，`onCreate()`，`onStartCommand()`，`onDestroy()`。分别代表服务创建，启动和销毁时应当做的操作，这里我们可以在日志中打印这些过程。
 
 ```java

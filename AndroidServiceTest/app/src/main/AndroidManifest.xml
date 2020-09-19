@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
+            android:name=".DownloadService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
             android:name=".MyService"
             android:enabled="true"
             android:exported="true" />
-        <service android:name=".MyIntentService"/>
+        <service android:name=".MyIntentService" />
 
         <activity android:name=".ServiceTest" />
         <activity android:name=".MainActivity">

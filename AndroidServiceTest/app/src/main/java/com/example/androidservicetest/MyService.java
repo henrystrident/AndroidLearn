@@ -17,7 +17,7 @@ public class MyService extends Service {
 
     private DownloadBinder mBinder = new DownloadBinder();
 
-    class DownloadBinder extends Binder
+    static class DownloadBinder extends Binder
     {
         public void startDownload()
         {

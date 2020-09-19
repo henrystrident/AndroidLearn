@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.changeText:
-                Message message = new Message();
+//                Message message = new Message();
+                Message message = Message.obtain();
                 message.what = CHANGE_TEXT;
                 handler.sendMessage(message);
                 break;
