@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         initFragment();
         bottomNavigationView.setOnNavigationItemSelectedListener(showFragment);
 
-        getPermission();
     }
 
 
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initNetwork()
     {
-        String ip = "http://192.168.31.164:";
+        String ip = "http://124.16.146.175:";
         String port = "8085/fungus-admin/android/";
         SharedPreferences.Editor editor = getSharedPreferences("networkSetting", MODE_PRIVATE).edit();
         editor.putString("ip", ip);
@@ -672,27 +671,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getPermission()
-    {
-        List<String> permissionList = new ArrayList<>();
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!permissionList.isEmpty())
-        {
-            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
-        }
-        
-    }
 
 }

@@ -78,7 +78,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 case LOGIN_SUCCESS:
                     Toast.makeText(Login.this, "登录成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    // TODO: 2020/8/27 分开真名和下标
                     String trueName = ((String)msg.obj).split("-")[0];
                     String collectIndex = ((String)msg.obj).split("-")[1];
                     intent.putExtra("username", userNameText.getText().toString());
