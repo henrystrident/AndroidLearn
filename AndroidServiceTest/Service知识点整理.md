@@ -235,7 +235,7 @@ case R.id.unbindService:
 
 ```java
 Intent intent = new Intent(this, MainActivity.class);
-PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, 		intent, 0); //其实这句不知道有什么作用，因为加不加点击之后效果都是一样的。
+PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 , intent, 0); //其实这句不知道有什么作用，因为加不加点击之后效果都是一样的。
 NotificationCompat.Builder builder;
 NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)

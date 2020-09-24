@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +17,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button changeText, enterServiceActivity;
+    private Button changeText, enterServiceActivity, Experiment;
     private TextView textView;
 
     private static final int CHANGE_TEXT = 1;
@@ -45,9 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeText = findViewById(R.id.changeText);
         textView = findViewById(R.id.textView);
         enterServiceActivity = findViewById(R.id.enterServiceActivity);
+        Experiment = findViewById(R.id.experiment);
 
         enterServiceActivity.setOnClickListener(this);
         changeText.setOnClickListener(this);
+        Experiment.setOnClickListener(this);
+
     }
 
     @Override
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.enterServiceActivity:
                 Intent intent = new Intent(MainActivity.this, ServiceTest.class);
                 startActivity(intent);
+            case R.id.experiment:
+                Intent experimentIntent = new Intent(MainActivity.this, Experiment.class);
+                startActivity(experimentIntent);
+                break;
             default:
                 break;
         }
