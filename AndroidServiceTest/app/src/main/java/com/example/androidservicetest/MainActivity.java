@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.androidservicetest.Experiment.ExperimentDownload;
+
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, ServiceTest.class);
                 startActivity(intent);
             case R.id.experiment:
-                Intent experimentIntent = new Intent(MainActivity.this, Experiment.class);
+                Intent experimentIntent = new Intent(MainActivity.this, ExperimentDownload.class);
                 startActivity(experimentIntent);
                 break;
             default:
